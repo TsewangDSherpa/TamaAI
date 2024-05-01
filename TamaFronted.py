@@ -1,7 +1,7 @@
 import requests
 
 # URL of the Flask server
-SERVER_URL = "http://localhost:5000/chat"
+SERVER_URL = "https://tama-ai.vercel.app/chat"
 
 # Message to send
 user_message = "Lets feed you?"

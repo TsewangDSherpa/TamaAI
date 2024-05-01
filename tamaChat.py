@@ -25,6 +25,11 @@ PREDEFINED_PROMPT = None
 api_key = os.getenv("OPENAI")
 client = OpenAI(api_key=api_key)
 
+@app.route('/', methods=['GET'])
+def page():
+    return jsonify({"reply": "Page is working correctly"})
+
+
 @app.route('/chat', methods=['POST'])
 def chat():
     global client, api_key
