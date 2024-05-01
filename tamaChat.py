@@ -1,5 +1,6 @@
 import json
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
 import os
@@ -8,6 +9,7 @@ import os
 load_dotenv(verbose=True, override=True)
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 personality_dict = {
     1: "normal",
