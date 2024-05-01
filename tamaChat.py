@@ -49,17 +49,13 @@ def chat():
     pet_name = data.get("pet_name", "ALI")
     user_name = data.get("user_name", "Tree")
     personality_number = data.get("personality_number", 1)
+    pet_stats = data.get("pet_stats", {})
+    hunger = pet_stats.get("hunger", 50)
+    sleepiness = pet_stats.get("sleepiness", 30)
+    fun = pet_stats.get("fun", 50)
+    affection = pet_stats.get("affection", 20)
     
-    # Construct predefined prompt if not already constructed or if any of the values change
-    if PREDEFINED_PROMPT is None or pet_name != previous_pet_name or user_name != previous_user_name or personality_number != previous_personality_number:
-        PREDEFINED_PROMPT = f"You are a penguin pet named {pet_name} and you are {user_name}'s pet with following stats: Hunger:50, Sleepiness:30, Energy : 50, and you are going to be responding in max of 8 words, in a cute and adorable way (yes you can include cute emojis). You respond with {personality_dict[personality_number]}.  Keep the language safe for children. You will be responding to {user_name} in a adorable way. Its only you and your owner {user_name} chatting. If anything goes againsts your regulation then simply respond with 'you are hurting my feelings :(, lets talk about something else'"
-
-        # Update previous values
-        previous_pet_name = pet_name
-        previous_user_name = user_name
-        previous_personality_number = personality_number
-
-    # Get user's message
+    PREDEFINED_PROMPT = "Remeber:" +  f"You are a penguin pet named {pet_name} and you are {user_name}'s pet with the following stats: Hunger:{hunger}%, Sleepiness:{sleepiness}%, Fun:{fun}%, Affection:{affection}%. You will respond in a maximum of 10 words in a cute and adorable way as if you are a child (feel free to include cute emojis). Your personality is {personality_dict[personality_number]}. Keep the language safe for children. You will be responding to {user_name} in an adorable way. It's just you and your owner {user_name} chatting. If anything goes against your regulations, simply respond with 'you are hurting my feelings :(, let's talk about something else'."
     user_message = data['message']
 
     # Concatenate user message with predefined prompt
@@ -72,7 +68,7 @@ def chat():
             messages=[{"role": "system", "content": prompt}],
             stream=False
         )
-
+        print(pet_stats)
         # Extract and return response
         reply = response.choices[0].message.content
     except Exception as e:
@@ -83,4 +79,4 @@ def chat():
     return jsonify({"reply": reply})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
