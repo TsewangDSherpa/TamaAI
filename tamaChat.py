@@ -1,6 +1,5 @@
 import json
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
 import os
@@ -9,7 +8,6 @@ import os
 load_dotenv(verbose=True, override=True)
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
 
 personality_dict = {
     1: "normal",
@@ -31,6 +29,7 @@ client = OpenAI(api_key=api_key)
 def page():
     return jsonify({"reply": "Page is working correctly"})
 
+
 @app.route('/chat', methods=['POST'])
 def chat():
     global client, api_key
@@ -39,7 +38,6 @@ def chat():
     # Get data from request
     data = request.json
     load_dotenv(verbose=True, override=True)
-    
     # Check if API key has changed
     new_api_key = os.getenv("OPENAI")
     if new_api_key != api_key:
@@ -57,10 +55,7 @@ def chat():
     fun = pet_stats.get("fun", 50)
     affection = pet_stats.get("affection", 20)
     
-    # Construct predefined prompt
-    PREDEFINED_PROMPT = "Remember: " + f"You are a penguin pet named {pet_name} and you are {user_name}'s pet with the following stats: Hunger:{hunger}%, Sleepiness:{sleepiness}%, Fun:{fun}%, Affection:{affection}%. You will chat back in a maximum of 10 words in a cute and adorable way as if you are a child (feel free to include cute emojis). Your personality is {personality_dict[personality_number]}. Keep the language safe for children. You will be responding to {user_name} in an adorable way. It's just you and your owner {user_name} chatting. If anything goes against your regulations, simply respond with 'you are hurting my feelings :(, let's talk about something else'."
-
-    # Get user's message
+    PREDEFINED_PROMPT = "Remeber:" +  f"You are a penguin pet named {pet_name} and you are {user_name}'s pet with the following stats: Hunger:{hunger}%, Sleepiness:{sleepiness}%, Fun:{fun}%, Affection:{affection}%. You will chat back in a maximum of 10 words in a cute and adorable way as if you are a child (feel free to include cute emojis). Your personality is {personality_dict[personality_number]}. Keep the language safe for children. You will be responding to {user_name} in an adorable way. It's just you and your owner {user_name} chatting. If anything goes against your regulations, simply respond with 'you are hurting my feelings :(, let's talk about something else'."
     user_message = data['message']
 
     # Concatenate user message with predefined prompt
@@ -73,6 +68,7 @@ def chat():
             messages=[{"role": "system", "content": prompt}],
             stream=False
         )
+        # print(pet_stats)
         # Extract and return response
         reply = response.choices[0].message.content
     except Exception as e:
