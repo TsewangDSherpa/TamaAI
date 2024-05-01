@@ -10,7 +10,7 @@ user_message = "You hungry"
 # Define pet's name, user's name, and personality number
 pet_name = "AaLI"
 user_name = "Ai"
-personality_number = 1
+personality_number = 3
 
 # JSON payload
 payload = {
@@ -18,7 +18,7 @@ payload = {
     "user_name": user_name,
     "personality_number": personality_number,
     "message": user_message,
-    "pet_stats":{"hunger":80, "sleepiness":10, "fun":100, "affection":10}
+    "pet_stats":{"hunger":1, "sleepiness":100, "fun":100, "affection":10}
 }
 
 # Send POST request to the server
