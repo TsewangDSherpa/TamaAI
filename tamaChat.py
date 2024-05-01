@@ -12,11 +12,11 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 personality_dict = {
-    1: "normal",
-    2: "cracky",
-    3: "playful",
-    4: "lazy",
-    5: "calm"
+    1: "normal and mature",
+    2: "cracky and angry",
+    3: "playful and hyper",
+    4: "lazy but polite",
+    5: "calm and zen-like"
 }
 
 # Define global variables to store the previous values
